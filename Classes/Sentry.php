@@ -30,11 +30,12 @@ final class Sentry
         $options = [
             'dsn' => getenv('SENTRY_DSN'),
             'in_app_exclude' => [
-                getenv('TYPO3_PATH_WEB'),
-                getenv('TYPO3_PATH_APP') . '/var',
-                getenv('TYPO3_PATH_APP') . '/vendor',
-                getenv('TYPO3_PATH_APP') . '/Vendor',
+                Environment::getConfigPath(),
+                Environment::getVarPath(),
+                Environment::getComposerRootPath() . '/vendor',
+                Environment::getComposerRootPath() . '/Vendor',
                 getenv('TYPO3_PATH_ROOT') . '/typo3',
+                getenv('TYPO3_PATH_WEB'),
             ],
             'prefixes' => [
                 getenv('TYPO3_PATH_APP'),
