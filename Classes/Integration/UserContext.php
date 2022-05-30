@@ -24,15 +24,19 @@ class UserContext implements ContextInterface
     {
         $user = $event->getUser() ?? new UserDataBag();
         $user->setIpAddress(GeneralUtility::getIndpEnv('REMOTE_ADDR'));
-        $request = $GLOBALS['TYPO3_REQUEST'] ?? ServerRequestFactory::fromGlobals();
-        $userType = ApplicationType::fromRequest($request)->isFrontend() ? 'frontend' : 'backend';
-        /** @var UserAspect $userAspect */
-        $userAspect = GeneralUtility::makeInstance(Context::class)->getAspect($userType . '.user');
-        if ($userAspect->isLoggedIn()) {
-            $user->setId($userAspect->get('id'));
-            $user->setUsername($userAspect->get('username'));
-            $user->setMetadata('groups', implode(', ', $userAspect->getGroupNames()));
+        try {
+            $request = $GLOBALS['TYPO3_REQUEST'] ?? ServerRequestFactory::fromGlobals();
+            $userType = ApplicationType::fromRequest($request)->isFrontend() ? 'frontend' : 'backend';
+            /** @var UserAspect $userAspect */
+            $userAspect = GeneralUtility::makeInstance(Context::class)->getAspect($userType . '.user');
+            if ($userAspect->isLoggedIn()) {
+                $user->setId($userAspect->get('id'));
+                $user->setUsername($userAspect->get('username'));
+                $user->setMetadata('groups', implode(', ', $userAspect->getGroupNames()));
+            }
+        } catch (\Throwable $t){
+        } finally {
+            $event->setUser($user);
         }
-        $event->setUser($user);
     }
 }

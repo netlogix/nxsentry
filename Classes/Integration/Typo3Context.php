@@ -20,7 +20,11 @@ class Typo3Context implements ContextInterface
     public function addToEvent(Event $event): void
     {
         $request = $GLOBALS['TYPO3_REQUEST'] ?? ServerRequestFactory::fromGlobals();
-        $applicationType = ApplicationType::fromRequest($request)->isFrontend() ? 'frontend' : 'backend';
+        try {
+            $applicationType = ApplicationType::fromRequest($request)->isFrontend() ? 'frontend' : 'backend';
+        } catch (\Throwable $t) {
+            $applicationType = 'not-resolved';
+        }
         $tags = array_merge($event->getTags(), [
             'typo3_version' => TYPO3_version,
             'application_type' => $applicationType,
