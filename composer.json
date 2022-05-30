@@ -1,18 +1,51 @@
 {
   "name": "netlogix/nxsentry",
   "description": "Sentry integration",
+  "type": "typo3-cms-extension",
   "license": "MIT",
   "require": {
     "typo3/cms-core": "^10.4 || ^11.5",
-    "sentry/sentry": "^3.3"
+    "php-http/guzzle7-adapter": "^1.0",
+    "sentry/sentry": "^3.5"
   },
-  "suggest": {
-    "php-http/guzzle6-adapter": "^2.0",
-    "php-http/guzzle7-adapter": "^1.0"
+  "require-dev": {
+    "ext-sqlite3": "*",
+    "nimut/testing-framework": "^6.0",
+    "nimut/phpunit-merger": "^1.1",
+    "phpunit/phpcov": "^8.2"
   },
   "autoload": {
     "psr-4": {
       "Netlogix\\Nxsentry\\": "Classes"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Netlogix\\Nxsentry\\Tests\\": "Tests/"
+    }
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "nxsentry",
+      "web-dir": ".Build/Web",
+      "cms-package-dir": "{$vendor-dir}/typo3/cms"
+    }
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin",
+    "allow-plugins": {
+      "typo3/class-alias-loader": true,
+      "typo3/cms-composer-installers": true
+    }
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "@prepare-extension-test-structure",
+      "mkdir --parents .Build/logs/"
+    ],
+    "prepare-extension-test-structure": [
+      "Nimut\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
+    ]
   }
 }

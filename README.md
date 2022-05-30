@@ -1,6 +1,11 @@
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Packagist](https://img.shields.io/packagist/v/netlogix/nxsentry.svg)](https://packagist.org/packages/netlogix/nxsentry)
 [![Maintenance level: Love](https://img.shields.io/badge/maintenance-%E2%99%A1%E2%99%A1%E2%99%A1-ff69b4.svg)](https://websolutions.netlogix.de/)
+[![stability-wip](https://img.shields.io/badge/stability-wip-lightgrey.svg)](hhttps://github.com/netlogix/nxsentry)
+[![TYPO3 V10](https://img.shields.io/badge/TYPO3-10-orange.svg)](https://get.typo3.org/version/10)
+[![TYPO3 V11](https://img.shields.io/badge/TYPO3-11-orange.svg)](https://get.typo3.org/version/11)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg)](https://php.net/)
+[![GitHub CI status](https://github.com/netlogix/nxsentry/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/netlogix/nxsentry/actions)
 
 # Sentry integration for TYPO3
 
@@ -29,7 +34,7 @@ Add this to your `LocalConfiguration.php`
 return [
     'LOG' => [
         'writerConfiguration' => [
-            'error' => [
+            \TYPO3\CMS\Core\Log\LogLevel::ERROR => [
                 'Netlogix\Nxsentry\Log\Writer\SentryBreadcrumbWriter' => [],
                 'Netlogix\Nxsentry\Log\Writer\SentryWriter' => [],
             ],
