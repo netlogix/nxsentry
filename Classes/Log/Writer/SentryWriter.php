@@ -42,9 +42,11 @@ class SentryWriter extends AbstractWriter
     {
         withScope(function (Scope $scope) use ($record) {
             $event = Event::createEvent();
-            $event->setLevel($this->getSeverityFromLevel($record->getLevel()));
-            $event->setMessage($record->getMessage(), $record->getData());
+
+            $message = $record->getMessage();
             $recordData = $record->getData();
+            $event->setMessage($message, $recordData, $this->interpolate($message, $recordData));
+            $event->setLevel($this->getSeverityFromLevel($record->getLevel()));
             $exception = $recordData['exception'] ?? null;
             $fingerprint = $recordData['fingerprint'] ?? null;
             if ($exception instanceof \Throwable) {
