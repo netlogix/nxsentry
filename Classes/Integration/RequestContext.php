@@ -118,11 +118,18 @@ class RequestContext implements ContextInterface
         $maxRequestBodySize = $options->getMaxRequestBodySize();
         $requestBody = $serverRequest->getBody();
 
+        try {
+            // PHP ^8.0 warning: Trying to access array offset on value of type bool
+            $requestBodySize = $requestBody->getSize();
+        } catch (\Throwable $t) {
+            return null;
+        }
+
         if (
             'none' === $maxRequestBodySize ||
-            ('small' === $maxRequestBodySize && $requestBody->getSize(
-                ) > self::REQUEST_BODY_SMALL_MAX_CONTENT_LENGTH) ||
-            ('medium' === $maxRequestBodySize && $requestBody->getSize() > self::REQUEST_BODY_MEDIUM_MAX_CONTENT_LENGTH)
+            ('small' === $maxRequestBodySize && $requestBodySize > self::REQUEST_BODY_SMALL_MAX_CONTENT_LENGTH)
+            ||
+            ('medium' === $maxRequestBodySize && $requestBodySize > self::REQUEST_BODY_MEDIUM_MAX_CONTENT_LENGTH)
         ) {
             return null;
         }
