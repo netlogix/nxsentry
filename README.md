@@ -48,7 +48,22 @@ Overwriting default options in the `LocalConfiguration.php`
 return [
     'EXTENSIONS' => [
         'nxsentry' => [
-            'dsn' => 'http://public_key@your-sentry-server.com/project-id'
+            'options' => [
+                'dsn' => 'http://public_key@your-sentry-server.com/project-id'
+            ]
+        ],
+    ],
+];
+```
+
+Add own integration to add custom data to the event.
+```php
+return [
+    'EXTENSIONS' => [
+        'nxsentry' => [
+            'integrations' => [
+                new MyCustomIntegration()
+            ]
         ],
     ],
 ];

@@ -54,7 +54,7 @@ final class Sentry
         try {
             $options = array_replace(
                 $options,
-                GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('nxsentry') ?? []
+                GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('nxsentry', 'options') ?? []
             );
         } catch (\Throwable $t) {
         } finally {
