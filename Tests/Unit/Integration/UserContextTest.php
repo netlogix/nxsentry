@@ -111,6 +111,9 @@ class UserContextTest extends UnitTestCase
         $user->userGroups = [
             ['uid' => 1, 'title' => 'some-user-group']
         ];
+        $user->groupData = [
+            'title' => ['some-user-group']
+        ];
 
         $userAspect = new UserAspect($user);
         $context = GeneralUtility::makeInstance(Context::class);

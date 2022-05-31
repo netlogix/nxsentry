@@ -5,7 +5,6 @@
   "license": "MIT",
   "require": {
     "sentry/sentry": "^3.5",
-    "symfony/http-client": "^4.3|^5.0|^6.0",
     "typo3/cms-core": "^10.4 || ^11.5"
   },
   "require-dev": {
@@ -23,6 +22,9 @@
     "psr-4": {
       "Netlogix\\Nxsentry\\Tests\\": "Tests/"
     }
+  },
+  "provide": {
+    "php-http/async-client-implementation": "*"
   },
   "extra": {
     "typo3/cms": {

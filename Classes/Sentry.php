@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Netlogix\Nxsentry;
 
-use Netlogix\Nxsentry\Integration\BeforeEventListener;
+use Http\Discovery\Psr17FactoryDiscovery;
 use Jean85\PrettyVersions;
+use Netlogix\Nxsentry\Integration\BeforeEventListener;
+use Netlogix\Nxsentry\Strategy\Typo3ClassesStrategy;
 use Sentry\Integration\EnvironmentIntegration;
 use Sentry\Integration\FatalErrorListenerIntegration;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
@@ -32,8 +34,8 @@ final class Sentry
             'in_app_exclude' => [
                 Environment::getConfigPath(),
                 Environment::getVarPath(),
-                Environment::getComposerRootPath() . '/vendor',
-                Environment::getComposerRootPath() . '/Vendor',
+                Environment::getProjectPath() . '/vendor',
+                Environment::getProjectPath() . '/Vendor',
                 getenv('TYPO3_PATH_ROOT') . '/typo3',
                 getenv('TYPO3_PATH_WEB'),
             ],
@@ -58,6 +60,7 @@ final class Sentry
             );
         } catch (\Throwable $t) {
         } finally {
+            Psr17FactoryDiscovery::appendStrategy(Typo3ClassesStrategy::class);
             init($options);
         }
     }

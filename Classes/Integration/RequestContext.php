@@ -129,7 +129,7 @@ class RequestContext implements ContextInterface
 
         $requestData = $serverRequest->getParsedBody();
         $requestData = array_merge(
-            $this->parseUploadedFiles($serverRequest->getUploadedFiles()),
+            $this->parseUploadedFiles($serverRequest->getUploadedFiles() ?? []),
             \is_array($requestData) ? $requestData : []
         );
 

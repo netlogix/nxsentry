@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Netlogix\Nxsentry\Tests\Integration;
 
+use Http\Discovery\Psr17FactoryDiscovery;
 use Netlogix\Nxsentry\Integration\RequestContext;
+use Netlogix\Nxsentry\Strategy\Typo3ClassesStrategy;
 use Nimut\TestingFramework\Bootstrap\SystemEnvironmentBuilder;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Sentry\Event;
@@ -24,6 +26,7 @@ class RequestContextTest extends UnitTestCase
     {
         parent::setUp();
         $this->event = Event::createEvent();
+        Psr17FactoryDiscovery::appendStrategy(Typo3ClassesStrategy::class);
     }
 
     /**
