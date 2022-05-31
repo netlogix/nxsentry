@@ -50,7 +50,6 @@ jobs:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: composer-php${{ matrix.php }}-typo3${{ matrix.typo3 }}
 
-
       - name: Install TYPO3 core
         run: composer require typo3/cms-core="^${{ matrix.typo3 }}" -W
 

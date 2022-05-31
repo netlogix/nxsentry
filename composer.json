@@ -4,9 +4,9 @@
   "type": "typo3-cms-extension",
   "license": "MIT",
   "require": {
-    "typo3/cms-core": "^10.4 || ^11.5",
-    "php-http/guzzle7-adapter": "^1.0",
-    "sentry/sentry": "^3.5"
+    "sentry/sentry": "^3.5",
+    "symfony/http-client": "^4.3|^5.0|^6.0",
+    "typo3/cms-core": "^10.4 || ^11.5"
   },
   "require-dev": {
     "ext-sqlite3": "*",
