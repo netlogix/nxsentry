@@ -133,4 +133,21 @@ class SentryWriter extends AbstractWriter
                 return Severity::info();
         }
     }
+
+    /**
+     * Interpolates context values into the message placeholders.
+     */
+    protected function interpolate(string $message, array $context = []): string
+    {
+        // Build a replacement array with braces around the context keys.
+        $replace = [];
+        foreach ($context as $key => $val) {
+            if (!is_array($val) && !is_null($val) && (!is_object($val) || method_exists($val, '__toString'))) {
+                $replace['{' . $key . '}'] = (string)$val;
+            }
+        }
+
+        // Interpolate replacement values into the message and return.
+        return strtr($message, $replace);
+    }
 }
