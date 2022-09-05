@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Netlogix\Nxsentry\Strategy;
 
+use Http\Client\HttpAsyncClient;
+use Http\Client\HttpClient;
 use Http\Discovery\Strategy\DiscoveryStrategy;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -32,6 +34,12 @@ class Typo3ClassesStrategy implements DiscoveryStrategy
         ],
         UriFactoryInterface::class => [
             \TYPO3\CMS\Core\Http\UriFactory::class
+        ],
+        HttpClient::class => [
+            \Netlogix\Nxsentry\Client\SentryHttpClient::class
+        ],
+        HttpAsyncClient::class => [
+            \Netlogix\Nxsentry\Client\SentryHttpClient::class
         ],
     ];
 
