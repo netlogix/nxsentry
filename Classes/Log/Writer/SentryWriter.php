@@ -102,7 +102,7 @@ class SentryWriter extends AbstractWriter
                     );
                 }
             }
-            if ($this->fallbackWriter && (isset($e) || empty(getenv('SENTRY_DNS')))) {
+            if ($this->fallbackWriter && (isset($e) || empty(getenv('SENTRY_DSN')))) {
                 $this->fallbackWriter->writeLog($record);
             }
         });
