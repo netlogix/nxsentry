@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netlogix\Nxsentry\Integration;
 
+use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Sentry\Event;
@@ -38,7 +39,16 @@ class RequestContext implements ContextInterface
 
     public function addToEvent(Event $event): void
     {
-        $request = $GLOBALS['TYPO3_REQUEST'] ?? ServerRequestFactory::fromGlobals();
+        try {
+            $request = $GLOBALS['TYPO3_REQUEST'] ?? ServerRequestFactory::fromGlobals();
+        } catch (\Throwable $t) {
+            // In some cases (e.g. with a corrupted host header) an exception occurs when
+            // using the ServerRequestFactory from TYPO3 to generate a ServerRequest object.
+            // In order to be still able to get the necessary information about the current
+            // request, we try to generate a ServerRequest with implementation of Guzzle.
+            $request = ServerRequest::fromGlobals();
+        }
+
         $client = SentrySdk::getCurrentHub()->getClient();
         if ($request === null || $client === null) {
             return;
